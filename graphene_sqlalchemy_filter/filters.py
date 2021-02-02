@@ -12,7 +12,7 @@ from graphene.types.inputobjecttype import InputObjectTypeOptions
 from graphene.types.utils import get_field_as
 from graphene_sqlalchemy import __version__ as gqls_version
 from graphene_sqlalchemy.converter import convert_sqlalchemy_type
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 
 # Database
 from sqlalchemy import and_, cast, inspection, not_, or_, types
@@ -446,16 +446,16 @@ class FilterSet(graphene.InputObjectType):
 
     @classmethod
     def _aliases_from_info(
-        cls, info: graphene.ResolveInfo
+        cls, info: graphene.GraphQLResolveInfo
     ) -> 'Dict[str, _MapperEntity]':
         """
-        Get cached aliases from graphene ResolveInfo object.
+        Get cached aliases from graphene GraphQLResolveInfo object.
 
         Notes:
             Deprecated.
 
         Args:
-            info: Graphene ResolveInfo object.
+            info: Graphene GraphQLResolveInfo object.
 
         Returns:
             Dictionary of model aliases.
@@ -668,7 +668,7 @@ class FilterSet(graphene.InputObjectType):
 
     @classmethod
     def filter(
-        cls, info: ResolveInfo, query: Query, filters: 'FilterType'
+        cls, info: GraphQLResolveInfo, query: Query, filters: 'FilterType'
     ) -> Query:
         """
         Return a new query instance with the args ANDed to the existing set.
@@ -738,7 +738,7 @@ class FilterSet(graphene.InputObjectType):
 
     @classmethod
     def _translate_filter(
-        cls, info: ResolveInfo, query: Query, key: str, value: 'Any'
+        cls, info: GraphQLResolveInfo, query: Query, key: str, value: 'Any'
     ) -> 'Tuple[Query, Any]':
         """
         Translate GraphQL to SQLAlchemy filters.
@@ -796,7 +796,7 @@ class FilterSet(graphene.InputObjectType):
     @classmethod
     def _translate_many_filter(
         cls,
-        info: ResolveInfo,
+        info: GraphQLResolveInfo,
         query: Query,
         filters: 'Union[List[FilterType], FilterType]',
         join_by: 'Callable' = None,
